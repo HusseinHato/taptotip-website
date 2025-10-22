@@ -8,6 +8,7 @@ import { WagmiProvider } from "@web3auth/modal/react/wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner"
 import NotFound404 from '@/components/NotFound404'
+import { config } from './config'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
@@ -32,7 +33,7 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <Web3AuthProvider config={web3AuthContextConfig}>
         <QueryClientProvider client={queryClient}>
-          <WagmiProvider>
+          <WagmiProvider config={config}>
             <RouterProvider router={router} />
             <Toaster />
           </WagmiProvider>
