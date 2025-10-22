@@ -47,7 +47,6 @@ const NONCE_ENFORCER_ABI = [
     },
 ] as const;
 
-const BUNDLER_RPC = import.meta.env.VITE_BUNDLER_URL || ""; // required for smart-account delegate path
 const env = getDeleGatorEnvironment(monadTestnet.id);
 const NONCE_ENFORCER_ADDR = import.meta.env.VITE_NONCE_ENFORCER as `0x${string}` | undefined;
 const RPC_URL = import.meta.env.VITE_RPC_URL || "https://testnet-rpc.monad.xyz";
@@ -182,7 +181,6 @@ export function useTapToTip() {
     const redeemTip = useCallback(
         async (recipient: `0x${string}`, amountEth: string, message: string) => {
             if (!signedDelegation) throw new Error("No signed delegation. Click Authorize Tip first.");
-            if (!BUNDLER_RPC) throw new Error("VITE_BUNDLER_RPC missing.");
             if (st.state !== 'ready') throw new Error("Smart account not ready");
 
 
