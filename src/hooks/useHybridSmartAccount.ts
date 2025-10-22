@@ -14,6 +14,8 @@ export function useHybridSmartAccount(): State {
   const { data: walletClient } = useWalletClient()
   const [st, setSt] = useState<State>({ state: 'idle' })
 
+  console.log(st);
+
   useEffect(() => {
     let alive = true
     ;(async () => {

@@ -7,6 +7,7 @@ import { useTapToTip } from "@/hooks/useTapToTip";
 import { toast } from "sonner";
 import { useAccount } from "wagmi";
 import { Button } from "@/components/ui/button";
+import SmartAccountPanel from "@/components/SmartAccountPanel";
 
 export const Route = createFileRoute('/tip')({
   component: TipPage,
@@ -102,7 +103,16 @@ export default function TipPage() {
 
   const onSend = useCallback(async () => {
     const uo = await redeemTip(recipient as `0x${string}`, amount, message);
-    toast(`Submitted: ${uo}`);
+    toast("Transaction Succeed", {
+      description: `tx hash: ${uo}`,
+      action: {
+        label: 'View on Explorer',
+        onClick: () => {
+          const url = `https://sepolia.etherscan.io/tx/${uo}`;
+          window.open(url, '_blank');
+        }
+      }
+    });
   }, [redeemTip, recipient, amount]);
 
   const expiresHuman = useMemo(() => (expiresAt ? new Date(expiresAt * 1000).toLocaleString() : ""), [expiresAt]);
@@ -134,6 +144,9 @@ export default function TipPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 sm:py-8">
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+  
+        <SmartAccountPanel />
+
         {/* Header */}
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-4 sm:px-6 py-6 sm:py-8 border-b border-gray-100">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Send a Tip</h1>
