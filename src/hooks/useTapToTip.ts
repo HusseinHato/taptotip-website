@@ -183,7 +183,6 @@ export function useTapToTip() {
             if (!signedDelegation) throw new Error("No signed delegation. Click Authorize Tip first.");
             if (st.state !== 'ready') throw new Error("Smart account not ready");
 
-
             const amountWei = parseEther(amountEth);
 
             // Check user's smart account balance

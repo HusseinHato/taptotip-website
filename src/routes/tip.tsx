@@ -30,19 +30,6 @@ export default function TipPage() {
 
   const { isConnected } = useAccount();
 
-  if (!isConnected) {
-    return (
-      <div className="max-w-2xl mx-auto px-4 py-6 sm:py-8">
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-          <div className="p-6 text-center">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Please Connect Your Wallet</h2>
-            <p className="text-gray-600">You need to connect your wallet to send tips.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   const [recipient, setRecipient] = useState<string>(prefilledTo ?? "");
   const [amount, setAmount] = useState<string>("0.001");
   const [message, setMessage] = useState<string>(prefilledRef ?? "");
@@ -108,12 +95,12 @@ export default function TipPage() {
       action: {
         label: 'View on Explorer',
         onClick: () => {
-          const url = `https://sepolia.etherscan.io/tx/${uo}`;
+          const url = `https://testnet.monadexplorer.com/tx/${uo}`;
           window.open(url, '_blank');
         }
       }
     });
-  }, [redeemTip, recipient, amount]);
+  }, [redeemTip, recipient, amount, message]);
 
   const expiresHuman = useMemo(() => (expiresAt ? new Date(expiresAt * 1000).toLocaleString() : ""), [expiresAt]);
 
