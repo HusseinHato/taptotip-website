@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate  } from '@tanstack/react-router'
 import { useAccount, useBalance } from "wagmi";
-import { Button } from '../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { toast } from "sonner"
 import { useWeb3AuthDisconnect } from "@web3auth/modal/react";
 import { Link } from '@tanstack/react-router'

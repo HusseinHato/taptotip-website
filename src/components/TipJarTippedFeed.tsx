@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { formatEther } from "viem";
 import { useAccount } from "wagmi"; // or wagmi's useAccount
-import { gql } from "../lib/envioClient";
-import { TIPPED_RECEIVED } from "../queries/tipped";
-import { useAllTimeEarnings } from "../hooks/useAllTimeEarnings";
+import { gql } from "@/lib/envioClient";
+import { TIPPED_RECEIVED } from "@/queries/tipped";
+import { useAllTimeEarnings } from "@/hooks/useAllTimeEarnings";
 
 type Tip = { id: string; from: string; to: string; amount: string; fee: string; ref?: string | null };
 

@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react'
 import { useWalletClient } from 'wagmi'
 import { getAddress, type Hex } from 'viem'
 import { Implementation, toMetaMaskSmartAccount } from '@metamask/delegation-toolkit'
-import { publicClient } from '../lib/aaClient'
+import { publicClient } from '@/lib/aaClient'
 
 type State =
-  | { state: 'idle' }
+  | { state: 'idle'; }
   | { state: 'ready'; address: `0x${string}`; deployed: boolean; smartAccount: any }
   | { state: 'error'; error: string }
 

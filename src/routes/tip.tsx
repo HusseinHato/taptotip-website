@@ -3,10 +3,10 @@ import { useLocation } from "@tanstack/react-router";
 import { isAddress, checksumAddress } from "viem";
 import QRCode from "qrcode";
 import { createFileRoute } from '@tanstack/react-router'
-import { useTapToTip } from "../hooks/useTapToTip";
+import { useTapToTip } from "@/hooks/useTapToTip";
 import { toast } from "sonner";
 import { useAccount } from "wagmi";
-import { Button } from "../components/ui/button";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute('/tip')({
   component: TipPage,

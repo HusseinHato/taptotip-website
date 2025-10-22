@@ -1,6 +1,6 @@
 import { useWeb3AuthConnect } from "@web3auth/modal/react";
 import { Link } from '@tanstack/react-router'
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 export default function NavBar() {
 

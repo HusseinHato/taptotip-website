@@ -5,7 +5,6 @@ import { useAccount } from "wagmi";
 import {
     parseEther,
     encodeFunctionData,
-    pad
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { publicClient } from "../lib/aaClient";
@@ -50,7 +49,7 @@ const BUNDLER_RPC = import.meta.env.VITE_BUNDLER_URL || ""; // required for smar
 const env = getDeleGatorEnvironment(monadTestnet.id);
 const NONCE_ENFORCER_ADDR = import.meta.env.VITE_NONCE_ENFORCER as `0x${string}` | undefined;
 
-function cacheKey({ chainId, delegator, delegate, tipjar }: { chainId: number; delegator: string; delegate: string; tipjar: string; }) {
+function cacheKey({ chainId, delegator, delegate, tipjar }: { chainId: number; delegator: `0x${string}` | null; delegate: string; tipjar: string; }) {
     return `tapToTip:delegation:v1:${chainId}:${delegator}:${delegate}:${tipjar}`;
 }
 
@@ -78,7 +77,9 @@ export function useTapToTip() {
     });
 
     useEffect(() => {
-        const key = cacheKey({ chainId: monadTestnet.id, delegator: st?.address, delegate: delegateAccount.address, tipjar: TIPJAR_ADDRESS });
+        if (st.state !== 'ready') return;
+
+        const key = cacheKey({ chainId: monadTestnet.id, delegator: st.address, delegate: delegateAccount.address, tipjar: TIPJAR_ADDRESS });
         const cached = loadDelegation(key);
         if (cached) {
             const now = Math.floor(Date.now() / 1000);
@@ -97,6 +98,7 @@ export function useTapToTip() {
     const authorizeTip = useCallback(
         async (ttlDays = 30) => {
             if (!st) throw new Error("Create delegator smart account first");
+            if (st.state !== 'ready') throw new Error("Smart account not ready");
 
             const DAY = 24 * 60 * 60;
             const MAX_TS = 253402300799;    
@@ -112,10 +114,11 @@ export function useTapToTip() {
                 { type: "timestamp", afterThreshold: afterThreshold, beforeThreshold: beforeThreshold },
             ];
 
+            if (!st.address) throw new Error("Delegator address is not set");
             const delegation = createDelegation({
-                from: st?.address,
+                from: st.address,
                 to: delegateAccount.address,
-                environment: st?.smartAccount?.environment,
+                environment: st.smartAccount.environment,
                 scope: {
                     type: "functionCall",
                     targets: [TIPJAR_ADDRESS],
@@ -129,7 +132,7 @@ export function useTapToTip() {
             const signed = { ...delegation, signature };
 
             // Cache
-            const key = cacheKey({ chainId: monadTestnet.id, delegator: st?.address, delegate: delegateAccount.address, tipjar: TIPJAR_ADDRESS });
+            const key = cacheKey({ chainId: monadTestnet.id, delegator: st.address, delegate: delegateAccount.address, tipjar: TIPJAR_ADDRESS });
             saveDelegation(key, { signedDelegation: signed, expiresAt: beforeThreshold, nonceTag });
 
 
@@ -187,6 +190,8 @@ export function useTapToTip() {
     const revokeAll = useCallback(async () => {
         if (!eoaAddress) throw new Error("Sign in first");
         if (!NONCE_ENFORCER_ADDR) throw new Error("Set VITE_NONCE_ENFORCER");
+        if (!wagmiWalletClient) throw new Error("Wallet client not available");
+        if (st.state !== 'ready') throw new Error("Smart account not ready");
 
         setTxStatus("Revoking…");
         const data = encodeFunctionData({ abi: NONCE_ENFORCER_ABI, functionName: "incrementNonce", args: [env.DelegationManager] });
@@ -196,7 +201,7 @@ export function useTapToTip() {
 
         // Clear cache for this delegator/delegate pair
         if (st) {
-            const key = cacheKey({ chainId: monadTestnet.id, delegator: st?.address, delegate: delegateAccount.address, tipjar: TIPJAR_ADDRESS });
+            const key = cacheKey({ chainId: monadTestnet.id, delegator: st.address, delegate: delegateAccount.address, tipjar: TIPJAR_ADDRESS });
             clearDelegation(key);
             setSignedDelegation(undefined);
         }

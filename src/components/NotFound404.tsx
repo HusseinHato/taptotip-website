@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from "@tanstack/react-router";
 
 export default function NotFound404() {
   return (
@@ -46,15 +46,15 @@ export default function NotFound404() {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-              <a
-                href="/"
+              <Link
+                to="/"
                 className="w-full sm:w-auto bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
                 Back to Home
-              </a>
+              </Link>
             </div>
 
             {/* Help Text */}
@@ -63,17 +63,17 @@ export default function NotFound404() {
                 Need help? Here are some useful links:
               </p>
               <div className="flex flex-wrap justify-center gap-4 text-sm">
-                <a href="/tip" className="text-green-600 hover:text-green-700 font-medium hover:underline">
+                <Link to="/tip" className="text-green-600 hover:text-green-700 font-medium hover:underline">
                   Send a Tip
-                </a>
+                </Link>
                 <span className="text-gray-300">•</span>
-                <a href="/profile" className="text-green-600 hover:text-green-700 font-medium hover:underline">
+                <Link to="/profile" className="text-green-600 hover:text-green-700 font-medium hover:underline">
                   My Profile
-                </a>
+                </Link>
                 <span className="text-gray-300">•</span>
-                <a href="/earnings" className="text-green-600 hover:text-green-700 font-medium hover:underline">
+                <Link to="/earnings" className="text-green-600 hover:text-green-700 font-medium hover:underline">
                   My Earnings
-                </a>
+                </Link>
               </div>
             </div>
           </div>

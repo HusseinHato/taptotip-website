@@ -5,7 +5,7 @@ import { useWeb3AuthConnect } from '@web3auth/modal/react';
 export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const { connect, isConnected, connectorName, loading: connectLoading, error: connectError } = useWeb3AuthConnect();
+  const { connect } = useWeb3AuthConnect();
 
   const features = [
     {

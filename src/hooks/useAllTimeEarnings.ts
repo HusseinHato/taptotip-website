@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { TIPPED_RECEIVED } from "../queries/tipped";
-import { gql } from "../lib/envioClient";
+import { TIPPED_RECEIVED } from "@/queries/tipped";
+import { gql } from "@/lib/envioClient";
 
 type Tip = { id: string; from: string; to: string; amount: string; fee: string; ref?: string | null };
 

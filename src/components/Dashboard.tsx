@@ -1,5 +1,5 @@
-import { useTapToTip } from "../hooks/useTapToTip";
-import { Button } from "./ui/button";
+import { useTapToTip } from "@/hooks/useTapToTip";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useCallback, useMemo } from "react";
 import { Link } from "@tanstack/react-router";
@@ -8,7 +8,6 @@ export default function Dashboard() {
 
     const {
         authorizeTip,
-        redeemTip,
         txStatus,
         revokeAll,
         hasValidDelegation,
